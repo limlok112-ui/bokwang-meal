@@ -2,7 +2,8 @@ name: School Meal Bot
 
 on:
   schedule:
-    - cron: '30 22 * * 0-4' # 한국 시간 기준 월~금 아침 7시 30분 자동 실행
+    - cron: '30 22 * * 0-4'
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -24,4 +25,3 @@ jobs:
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           KAKAO_ACCESS_TOKEN: ${{ secrets.KAKAO_ACCESS_TOKEN }}
         run: python main.py
-        workflow_dispatch:
