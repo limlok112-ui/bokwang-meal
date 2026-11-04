@@ -42,21 +42,22 @@ try:
       meal_menu = row_data[0]["DDISH_NM"].replace("<br/>", "\n")
       message += f"{meal_menu}\n"
 
-  # 3. 카카오톡 나에게 보내기 (json 형태로 안전하게 전송)
+  # 3. 카카오톡 나에게 보내기 (form-urlencoded 방식으로 전송)
+  import json
+
   kakao_url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
   headers = {"Authorization": f"Bearer {KAKAO_ACCESS_TOKEN}"}
-  data = {
-      "template_object": {
-          "object_type": "text",
-          "text": message,
-          "link": {
-              "web_url": "https://developers.kakao.com",
-              "mobile_web_url": "https://developers.kakao.com",
-          },
-      }
+  template_object = {
+      "object_type": "text",
+      "text": message,
+      "link": {
+          "web_url": "https://developers.kakao.com",
+          "mobile_web_url": "https://developers.kakao.com",
+      },
   }
+  data = {"template_object": json.dumps(template_object)}
 
-  res = requests.post(kakao_url, headers=headers, json=data)
+  res = requests.post(kakao_url, headers=headers, data=data)
   if res.status_code == 200:
     print("카카오톡 전송 완료!")
   else:
